@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Validado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 50%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Caja de información */
+    .info-box {
+      background-color: #e0f7fa;
+      border: 2px solid #00796b;
+      padding: 15px;
+      border-radius: 10px;
+      width: 50%;
+      display: none;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff5252;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    .info-content {
+      margin-top: 30px;
+      color: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="formulario">
+      <h1>Registro</h1>
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre">
+
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" id="apellidos" name="apellidos">
+
+      <label for="edad">Edad:</label>
+      <input type="number" id="edad" name="edad">
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div class="info-box" id="infoBox">
+      <button class="close-btn" id="cerrarBtn">Cerrar</button>
+      <div class="info-content" id="infoContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('formulario');
+    const infoBox = document.getElementById('infoBox');
+    const infoContent = document.getElementById('infoContent');
+    const cerrarBtn = document.getElementById('cerrarBtn');
+    const nombreInput = document.getElementById('nombre');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // evita recargar la página
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const apellidos = document.getElementById('apellidos').value.trim();
+      const edad = document.getElementById('edad').value.trim();
+
+      // Validación
+      if (nombre === '' || apellidos === '') {
+        alert('Los campos nombre y apellidos no pueden estar vacíos.');
+        return;
+      }
+
+      if (isNaN(edad) || edad <= 0) {
+        alert('La edad debe ser un número positivo mayor a 0.');
+        return;
+      }
+
+      // Mostrar información
+      infoContent.innerHTML = `
+        <p><strong>Nombre:</strong> ${nombre}</p>
+        <p><strong>Apellidos:</strong> ${apellidos}</p>
+        <p><strong>Edad:</strong> ${edad}</p>
+      `;
+      infoBox.style.display = 'block';
+    });
+
+    cerrarBtn.addEventListener('click', function() {
+      infoBox.style.display = 'none';
+      form.reset();
+      nombreInput.focus();
+    });
+
+    // Colocar el foco inicial
+    window.onload = () => nombreInput.focus();
+  </script>
+</body>
+</html>
